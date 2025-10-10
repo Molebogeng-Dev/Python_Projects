@@ -1,5 +1,5 @@
 import unittest
-from src.main import calculate_discount
+from discount import calculate_discount
 
 class TestDiscount(unittest.TestCase):
     def test_basic_discount(self):

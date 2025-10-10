@@ -1,5 +1,5 @@
 import unittest
-from src.draw import draw_square, draw_triangle, draw_hollow_rectangle
+from draw import draw_square, draw_triangle, draw_hollow_rectangle
 
 class TestDrawShapes(unittest.TestCase):
     def test_draw_square(self):
