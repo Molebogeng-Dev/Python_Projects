@@ -2,23 +2,25 @@ import sys
 from math import sin, cos
 
 class Rover:
-    def __init__(self, file):
-        try:
-            with open(file) as f:
-                self.file= f.readlines()
-        except FileNotFoundError:
-            sys.exit('Cannot open file')
+   
+   
+def __init__(self, file):
+    try:
+        with open(file) as f:
+            self.file= f.readlines()
+    except FileNotFoundError:
+        sys.exit('Cannot open file')
 
-        self.cat_p={360: [sin(self.degrees),cos(self.degrees)],
-                    270: [cos(self.degrees),sin(self.degrees)],
-                    180: [sin(self.degrees),cos(self.degrees)],
-                    90: [cos(self.degrees),sin(self.degrees)], 
-                    0: [sin(self.degrees),cos(self.degrees)]
-                }
-        self.degrees=0
-        self.x_y=[0,0]
-        
-        print("I'm at (0, 0) facing 0 degrees")
+    self.cat_p={360: [sin(self.degrees),cos(self.degrees)],
+                270: [cos(self.degrees),sin(self.degrees)],
+                180: [sin(self.degrees),cos(self.degrees)],
+                90: [cos(self.degrees),sin(self.degrees)], 
+                0: [sin(self.degrees),cos(self.degrees)]
+            }
+    self.degrees=0
+    self.x_y=[0,0]
+    
+    print("I'm at (0, 0) facing 0 degrees")
 
 
   
@@ -56,10 +58,3 @@ class Rover:
             else:
                 print(f"I've encountered an instruction I don't understand, aborting (instruction {i+1})")        
         
-
-def main():
-    rover= Rover('ins.txt')#sys.argv[1])
-    rover.instructions()
-
-if __name__ == "__main__":
-    main()
