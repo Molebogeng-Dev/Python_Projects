@@ -3,5 +3,3 @@ Turn 90 degrees clockwise
 Move 5 meters forward
 Turn 90 degrees counterclockwise
 Move 10 meters forward
-
-
