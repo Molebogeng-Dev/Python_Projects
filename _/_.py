@@ -9,13 +9,12 @@ class Rover:
         except FileNotFoundError:
             sys.exit('Cannot open file')
 
-        self.cat_p={360: [sin(self.degrees),cos(self.degrees)],
-                    270: [cos(self.degrees),sin(self.degrees)],
+        self.degrees=0
+        self.cat_p={270: [cos(self.degrees),sin(self.degrees)],
                     180: [sin(self.degrees),cos(self.degrees)],
                     90: [cos(self.degrees),sin(self.degrees)], 
                     0: [sin(self.degrees),cos(self.degrees)]
                 }
-        self.degrees=0
         self.x_y=[0,0]
         
         print("I'm at (0, 0) facing 0 degrees")
@@ -23,22 +22,29 @@ class Rover:
 
   
     def calculations(self,campus,meters):
-        return [round(campus[0]*meters)+self.x_y[0],round(campus[1]*meters)+self.x_y[1]]
+        if self.degrees < 90:
+            self.x_y=[round(campus[0]*meters)+self.x_y[0],round(campus[1]*meters)+self.x_y[1]]
+        elif self.degrees < 180:
+            self.x_y=[round(campus[0]*meters)+self.x_y[0],round(campus[1]*meters)-self.x_y[1]]
+        elif self.degrees < 270:
+            self.x_y=[round(campus[0]*meters)-self.x_y[0],round(campus[1]*meters)-self.x_y[1]]
+        else:
+            self.x_y=[round(campus[0]*meters)-self.x_y[0],round(campus[1]*meters)+self.x_y[1]]
+       
+
 
     def instructions(self):                 
         for i,ins in enumerate(self.file):
             ls_ins=ins.split()
             if 'meters' in ls_ins and len(ls_ins) == 4:
-                fib=[]
                 for point in self.cat_p:
-                    if point < self.degrees:
 
-                        self.x_y=self.calculations(self.cat_p[point],int(ls_ins[1]))
+                    if point <= self.degrees:
+                        self.calculations(self.cat_p[point],int(ls_ins[1]))
                         
                         print(f"Moving {ls_ins[1]} meters forward (instruction {i+1})")
                         print(f"I'm at ({self.x_y[0]}, {self.x_y[1]}) facing {self.degrees} degrees")
                         break 
-                    fib.append(point)                           
 
             elif 'degrees' in ls_ins and len(ls_ins) == 4:
                 if 'clockwise' in ls_ins:
@@ -58,7 +64,7 @@ class Rover:
         
 
 def main():
-    rover= Rover('ins.txt')#sys.argv[1])
+    rover= Rover('_/ins.txt')#sys.argv[1])
     rover.instructions()
 
 if __name__ == "__main__":
