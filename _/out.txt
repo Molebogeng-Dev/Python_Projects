@@ -1,11 +1,9 @@
-I'm at (0, 0) facing 0 degrees
-Moving 10 meters forward (instruction 1)
-I'm at (0, 10) facing 0 degrees
-Turning 90 degrees clockwise (instruction 2)
-I'm at (0, 10) facing 90 degrees
-Moving 5 meters forward (instruction 3)
-I'm at (5, 10) facing 90 degrees
-Turning 90 degrees counterclockwise (instruction 4)
-I'm at (5, 10) facing 0 degrees
-Moving 10 meters forward (instruction 5)
-I'm at (5, 20) facing 0 degrees
+9 6 2 0 7 8 5 0 0
+1 0 5 0 0 9 3 0 0
+3 0 0 0 0 0 8 2 0
+0 0 1 0 0 0 0 7 0
+6 0 0 0 5 0 0 0 8
+0 0 0 6 0 3 9 0 5
+0 1 8 0 0 5 0 0 0
+0 0 6 8 3 2 7 0 1
+7 5 3 1 9 0 4 8 0

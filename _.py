@@ -1,1 +1,3 @@
-print(0+(-10))
+num =5+-10
+
+print(f'{num:.2f}')
