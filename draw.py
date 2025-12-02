@@ -40,7 +40,7 @@ def draw_hollow_rectangle(col,row):
         raise(ValueError)
     return ''.join(rectangle)
 
-
+print(draw_hollow_rectangle(100,50))
 
             
 
