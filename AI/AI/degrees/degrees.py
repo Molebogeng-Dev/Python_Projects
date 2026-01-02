@@ -71,17 +71,17 @@ def main():
 
     path = shortest_path(source, target)
 
-    if path is None:
-        print("Not connected.")
-    else:
-        degrees = len(path)
-        print(f"{degrees} degrees of separation.")
-        path = [(None, source)] + path
-        for i in range(degrees):
-            person1 = people[path[i][1]]["name"]
-            person2 = people[path[i + 1][1]]["name"]
-            movie = movies[path[i + 1][0]]["title"]
-            print(f"{i + 1}: {person1} and {person2} starred in {movie}")
+    # if path is None:
+    #     print("Not connected.")
+    # else:
+    #     degrees = len(path)
+    #     print(f"{degrees} degrees of separation.")
+    #     path = [(None, source)] + path
+    #     for i in range(degrees):
+    #         person1 = people[path[i][1]]["name"]
+    #         person2 = people[path[i + 1][1]]["name"]
+    #         movie = movies[path[i + 1][0]]["title"]
+    #         print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
 
 def shortest_path(source, target):
@@ -91,9 +91,47 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
+    '''
+    node = Node(source,target,neighbors_for_person(source))
+    stack = StackFrontier()
+    queue = QueueFrontier()
+    path = [(None,source)]
 
-    # TODO
-    raise NotImplementedError
+    stack.add(node)
+    if stack.contains_state(source):
+        path.append((movie,star))
+        return path[1:]
+    '''
+    path = []
+    fib = [(None,source)]
+    node = neighbors_for_person(source)
+
+    if target == source:
+        return path
+    
+    for i in range(len(node)): 
+        for id in fib:
+            if found := node[i][-1] == id[-1]:
+                del node[i]
+                break
+        if not found:  
+            fib.append(node[i])
+            del node[i]
+            break
+    
+    for i in fib :
+        if i not in path:
+            path.append(i)
+            
+    source = fib[-1][-1]
+    
+    
+    
+
+
+    
+
+    #raise NotImplementedError
 
 
 def person_id_for_name(name):
