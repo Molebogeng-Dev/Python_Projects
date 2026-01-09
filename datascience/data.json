@@ -1,0 +1,3567 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Hotshot Public API"
+  },
+  "servers": [
+    {
+      "url": "https://api.hotshot.site/app/api/v1",
+      "description": "Production server"
+    },
+    {
+      "url": "https://api-staging.hotshot.site/app/api/v1/",
+      "description": "Staging server"
+    }
+  ],
+  "paths": {
+    "/properties/{property_id}/accounts": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Return all accounts",
+        "description": "Returns all accounts of a property",
+        "operationId": "ListAccounts",
+        "responses": {
+          "200": {
+            "description": "A paginated array of accounts in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accounts"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/{account_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get a single account",
+        "description": "Retrieves the requested account",
+        "operationId": "getAccount",
+        "responses": {
+          "200": {
+            "description": "The requested account in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/email/{account_email}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/account_email"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get a single account by email",
+        "description": "Retrieves the requested account",
+        "operationId": "getAccountByEmail",
+        "responses": {
+          "200": {
+            "description": "The requested account in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/create": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create/Upsert an account",
+        "description": "Creates or upserts an account for the property. Removes any deleted or inactive states on upsert.",
+        "operationId": "createAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accountPostForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The account has been created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/create-or-activate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create/Restore an account",
+        "description": "Creates or restores and reactivates an account for the property. Removes any deleted or inactive states on upsert.",
+        "operationId": "createOrActivateAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postAccountCreateOrActivateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The account has been created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/bulk-create-or-activate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/notify"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create/Restore multiple accounts",
+        "description": "Creates or restores and reactivates multiple accounts for the property. Removes any deleted or inactive states on upsert.",
+        "operationId": "bulkCreateOrActivateAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postAccountCreateOrActivateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The accounts will be processed in the background",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/{account_id}/update": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Update an account",
+        "description": "Updates an account for the property",
+        "operationId": "updateAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accountUpdateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The account has been updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/{account_id}/activate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Activate an account",
+        "description": "Activates an account for the property",
+        "operationId": "activateAccount",
+        "responses": {
+          "200": {
+            "description": "The account has been activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/{account_id}/deactivate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Deactivate an account",
+        "description": "Deactivates an account for the property",
+        "operationId": "deactivateAccount",
+        "responses": {
+          "200": {
+            "description": "The account has been activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/bulk-deactivate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Deactivate multiple accounts",
+        "description": "Deactivates multiple accounts for the property",
+        "operationId": "bulkDeactivateAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postAccountBulkDeactivateForm"
+              },
+              "example": {
+                "external_references": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The accounts will be processed in the background",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": []
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/{account_id}/delete": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Delete an account",
+        "description": "Deletes an account for the property",
+        "operationId": "deleteAccount",
+        "responses": {
+          "200": {
+            "description": "The account has been deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/bulk-delete": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Delete multiple accounts",
+        "description": "Disconnects/Deactivates accounts and linked devices and deletes them from the property",
+        "operationId": "bulkDeleteAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postAccountBulkDeleteForm"
+              },
+              "example": {
+                "external_references": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The accounts will be processed in the background",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": []
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/accounts/disconnect-deleted-accounts": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Disconnect deleted accounts",
+        "description": "Sends disconnect requests to deleted accounts for the property",
+        "operationId": "DisconnectDeletedAccounts",
+        "responses": {
+          "200": {
+            "description": "Disconnect requests have been sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": []
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/devices": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Return all devices",
+        "description": "Returns all devices of a property",
+        "operationId": "ListDevices",
+        "responses": {
+          "200": {
+            "description": "A paginated array of devices in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/devices"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/devices/{device_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/device_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get a single device",
+        "description": "Retrieves the requested device",
+        "operationId": "getDevice",
+        "responses": {
+          "200": {
+            "description": "The requested device in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/device"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/devices/bulk-create-or-activate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/notify"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Create/Restore multiple devices",
+        "description": "Creates or restores and reactivates multiple devices for the property.",
+        "operationId": "bulkCreateOrActivateDevice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postDeviceCreateOrActivateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The accounts will be processed in the background",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/devices/{device_id}/activate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/device_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Activate an device",
+        "description": "Activates an device for the property",
+        "operationId": "activateAccount",
+        "responses": {
+          "200": {
+            "description": "The device has been activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/device"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/devices/{device_id}/deactivate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/device_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Deactivate an device",
+        "description": "Deactivates an device for the property",
+        "operationId": "deactivateDevice",
+        "responses": {
+          "200": {
+            "description": "The device has been activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/device"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/devices/bulk-deactivate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Deactivate multiple devices",
+        "description": "Deactivates multiple devices for the property",
+        "operationId": "bulkDeactivateDevice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postDeviceBulkDeactivateForm"
+              },
+              "example": {
+                "external_references": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The devices will be processed in the background",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": []
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/rooms": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Rooms"
+        ],
+        "summary": "Return all rooms",
+        "description": "Returns all rooms of a property",
+        "operationId": "ListRooms",
+        "responses": {
+          "200": {
+            "description": "A paginated array of rooms in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rooms"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/rooms/{room_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/room_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Rooms"
+        ],
+        "summary": "Get a single room",
+        "description": "Retrieves the requested room",
+        "operationId": "getRoom",
+        "responses": {
+          "200": {
+            "description": "The requested room in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/room"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/rooms/create": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Rooms"
+        ],
+        "summary": "Create a room",
+        "description": "Creates a room for the property",
+        "operationId": "createRoom",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/roomPostForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The room has been created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/room"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequestError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/rooms/{room_id}/update": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/room_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Rooms"
+        ],
+        "summary": "Update an room",
+        "description": "Updates a room for the property",
+        "operationId": "updateRoom",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/roomUpdateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The room has been updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/room"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/rooms/{room_id}/delete": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        },
+        {
+          "$ref": "#/components/parameters/room_id"
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Rooms"
+        ],
+        "summary": "Delete a room",
+        "description": "Deletes a room for the property",
+        "operationId": "deleteRoom",
+        "responses": {
+          "200": {
+            "description": "The room has been deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/room"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties": {
+      "get": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Return all properties",
+        "description": "Returns all properties",
+        "operationId": "ListProperty",
+        "responses": {
+          "200": {
+            "description": "A paginated array of properties in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/properties"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/create": {
+      "post": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Create a property",
+        "description": "Creates a property",
+        "operationId": "createProperty",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/propertyCreateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The property has been created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Get a single property",
+        "description": "Retrieves the requested property",
+        "operationId": "getProperty",
+        "responses": {
+          "200": {
+            "description": "The requested property in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/search/{term}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/term"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Get properties by search term",
+        "description": "Searches properties by the given term",
+        "operationId": "searchTerm",
+        "responses": {
+          "200": {
+            "description": "The requested property in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/update": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Update an property",
+        "description": "Updates a property",
+        "operationId": "updateProperty",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/propertyUpdateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The property has been updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/validationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/activate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Activate a property",
+        "description": "Activates a property",
+        "operationId": "activateProperty",
+        "responses": {
+          "200": {
+            "description": "The property has been activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{property_id}/deactivate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/property_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Properties"
+        ],
+        "summary": "Deactivate a property",
+        "description": "Deactivates a property",
+        "operationId": "deactivateProperty",
+        "responses": {
+          "200": {
+            "description": "The property has been activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packages": {
+      "get": {
+        "tags": [
+          "Packages"
+        ],
+        "summary": "Returns all packages",
+        "description": "Returns all of the active packages",
+        "operationId": "listPackages",
+        "responses": {
+          "200": {
+            "description": "A paginated array of packages in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/packages"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packages/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/package_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Packages"
+        ],
+        "summary": "Get a single package",
+        "description": "Retrieves the requested package",
+        "operationId": "getPackage",
+        "responses": {
+          "200": {
+            "description": "The requested package in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/package"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFoundError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Returns all groups",
+        "description": "Returns all of the available groups",
+        "operationId": "listGroups",
+        "responses": {
+          "200": {
+            "description": "A paginated array of groups in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/groups"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Get a single group",
+        "description": "Retrieves the requested group",
+        "operationId": "getGroup",
+        "responses": {
+          "200": {
+            "description": "A paginated array of groups in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/groups"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property-types": {
+      "get": {
+        "tags": [
+          "Property Types"
+        ],
+        "summary": "Returns all property types",
+        "description": "Returns all of the available property types",
+        "operationId": "listPropertyTypes",
+        "responses": {
+          "200": {
+            "description": "An array of property types in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property_types"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connectivity-types": {
+      "get": {
+        "tags": [
+          "Connectivity Types"
+        ],
+        "summary": "Returns all connectivity types",
+        "description": "Returns all of the available connectivity types",
+        "operationId": "listPropertyTypes",
+        "responses": {
+          "200": {
+            "description": "An array of property types in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connectivity_types"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gateway-types": {
+      "get": {
+        "tags": [
+          "Gateway Types"
+        ],
+        "summary": "Returns all gateway types",
+        "description": "Returns all of the available connectivity types",
+        "operationId": "listGatewayTypes",
+        "responses": {
+          "200": {
+            "description": "An array of gateway types in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/gateway_types"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property-interface-types": {
+      "get": {
+        "tags": [
+          "Property Interface Types"
+        ],
+        "summary": "Returns all property interface types",
+        "description": "Returns all of the available property interface types",
+        "operationId": "listGatewayTypes",
+        "responses": {
+          "200": {
+            "description": "An array of property interface types in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/property_interface_types"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device-category-types": {
+      "get": {
+        "tags": [
+          "Mac Categories Types"
+        ],
+        "summary": "Returns all device category types",
+        "description": "Returns all of the available device category types",
+        "operationId": "listPropertyTypes",
+        "responses": {
+          "200": {
+            "description": "An array of device category types in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/device_category_types"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries": {
+      "get": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Returns all countries",
+        "description": "Returns all of the available countries",
+        "operationId": "listCountries",
+        "responses": {
+          "200": {
+            "description": "An array of countries in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/countries"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portals": {
+      "get": {
+        "tags": [
+          "Portals"
+        ],
+        "summary": "Returns all portals",
+        "description": "Returns all of the active portals",
+        "operationId": "listPortals",
+        "responses": {
+          "200": {
+            "description": "A paginated array of portals in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/portals"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not authorized to view the resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "description": "Authorization header using the bearer scheme",
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "parameters": {
+      "id": {
+        "description": "Resource identifier",
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/id"
+        }
+      },
+      "external_reference": {
+        "description": "PropertyCode or TenantCode depending on the resource.",
+        "name": "external_reference",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/external_reference"
+        }
+      },
+      "slug": {
+        "description": "Resource identifier",
+        "name": "slug",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/slug"
+        }
+      },
+      "notify": {
+        "description": "Email Address",
+        "name": "notify",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/notify"
+        }
+      },
+      "property_id": {
+        "description": "Resource identifier",
+        "name": "property_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/property_id"
+        }
+      },
+      "device_id": {
+        "description": "Resource identifier",
+        "name": "device_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/device_id"
+        }
+      },
+      "term": {
+        "description": "Search Term",
+        "name": "term",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/term"
+        }
+      },
+      "account_id": {
+        "description": "Resource identifier",
+        "name": "account_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/account_id"
+        }
+      },
+      "account_email": {
+        "description": "Resource identifier",
+        "name": "account_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/account_email"
+        }
+      },
+      "package_id": {
+        "description": "Resource identifier",
+        "name": "package_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/package_id"
+        }
+      },
+      "room_id": {
+        "description": "Resource identifier",
+        "name": "room_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/room_id"
+        }
+      },
+      "country_id": {
+        "description": "Resource identifier",
+        "name": "country_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/country_id"
+        }
+      },
+      "property_type_id": {
+        "description": "Resource identifier",
+        "name": "property_type_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/property_type_id"
+        }
+      },
+      "group_id": {
+        "description": "Resource identifier",
+        "name": "group_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/group_id"
+        }
+      }
+    },
+    "schemas": {
+      "id": {
+        "type": "integer",
+        "example": 1
+      },
+      "external_reference": {
+        "type": "string"
+      },
+      "slug": {
+        "type": "string",
+        "example": "lorem-ipsum"
+      },
+      "notify": {
+        "type": "string",
+        "example": "lorem@example.com"
+      },
+      "property_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "device_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "term": {
+        "type": "string",
+        "example": "120 end"
+      },
+      "account_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "package_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "account_email": {
+        "type": "string",
+        "example": "lorem@example.com"
+      },
+      "room_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "country_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "property_type_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "group_id": {
+        "type": "integer",
+        "example": 1
+      },
+      "validationError": {
+        "allOf": [
+          {
+            "properties": {
+              "errors": {
+                "properties": {
+                  "fieldName1": {
+                    "type": "array"
+                  },
+                  "fieldName2": {
+                    "type": "array"
+                  },
+                  "etc": {
+                    "type": "array"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "notFoundError": {
+        "properties": {
+          "error": {
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              }
+            },
+            "example": {
+              "message": "No records found.",
+              "code": 404
+            }
+          }
+        }
+      },
+      "forbiddenError": {
+        "properties": {
+          "error": {
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              }
+            },
+            "example": {
+              "status": "Forbidden",
+              "message": "Access denied for current user.",
+              "code": 403
+            }
+          }
+        }
+      },
+      "badRequestError": {
+        "properties": {
+          "error": {
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              }
+            },
+            "example": {
+              "status": "Bad Request",
+              "message": "Malformed request.",
+              "code": 400
+            }
+          }
+        }
+      },
+      "property_type": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "property_types": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "device_category_types": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "connectivity_type": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "connectivity_types": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "gateway_type": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "gateway_types": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "property_interface_type": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "property_interface_types": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "country": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "full_name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "countries": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "full_name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "group": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "contact_email": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "draft": {
+                "type": "boolean"
+              },
+              "number_of_properties": {
+                "type": "integer"
+              },
+              "property_ids": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "groups": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "contact_email": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "draft": {
+                      "type": "boolean"
+                    },
+                    "number_of_properties": {
+                      "type": "integer"
+                    },
+                    "property_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "package": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "volume_gb": {
+                "type": "integer"
+              },
+              "speed_mbps": {
+                "type": "integer"
+              },
+              "max_users": {
+                "type": "integer"
+              },
+              "recurs": {
+                "type": "string"
+              },
+              "session_time_hrs": {
+                "type": "integer"
+              },
+              "idle_timeout_hrs": {
+                "type": "integer"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "packages": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "volume_gb": {
+                      "type": "integer"
+                    },
+                    "speed_mbps": {
+                      "type": "integer"
+                    },
+                    "max_users": {
+                      "type": "integer"
+                    },
+                    "recurs": {
+                      "type": "string"
+                    },
+                    "session_time_hrs": {
+                      "type": "integer"
+                    },
+                    "idle_timeout_hrs": {
+                      "type": "integer"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "portal": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "custom": {
+                "type": "boolean"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "portals": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "custom": {
+                      "type": "integer"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "accountPostForm": {
+        "type": "object",
+        "properties": {
+          "external_reference": {
+            "type": "string"
+          },
+          "room_id": {
+            "type": "integer"
+          },
+          "package_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "mobile_number": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "accountUpdateForm": {
+        "type": "object",
+        "properties": {
+          "external_reference": {
+            "type": "string"
+          },
+          "room_id": {
+            "type": "integer"
+          },
+          "package_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "mobile_number": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "postAccountCreateOrActivate": {
+        "type": "object",
+        "properties": {
+          "external_reference": {
+            "type": "string"
+          },
+          "room_id": {
+            "type": "integer"
+          },
+          "package_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "mobile_number": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "postAccountCreateOrActivateForm": {
+        "type": "object",
+        "properties": {
+          "accounts": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "external_reference": {
+                  "type": "string"
+                },
+                "room_id": {
+                  "type": "integer"
+                },
+                "package_id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "mobile_number": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "postAccountBulkDeactivateForm": {
+        "type": "object",
+        "properties": {
+          "external_references": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "postAccountBulkDeleteForm": {
+        "type": "object",
+        "properties": {
+          "external_references": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "postDeviceCreateOrActivateForm": {
+        "type": "object",
+        "properties": {
+          "devices": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "external_reference": {
+                  "type": "string"
+                },
+                "room_id": {
+                  "type": "integer"
+                },
+                "package_id": {
+                  "type": "integer"
+                },
+                "mac_category_id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "mac_address": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "postDeviceBulkDeactivateForm": {
+        "type": "object",
+        "properties": {
+          "external_references": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "minItems": 1
+      },
+      "account": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "external_reference": {
+                "type": "string"
+              },
+              "property_id": {
+                "type": "integer"
+              },
+              "room_id": {
+                "type": "integer"
+              },
+              "package_id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "mobile_number": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "accounts": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "external_reference": {
+                      "type": "string"
+                    },
+                    "property_id": {
+                      "type": "integer"
+                    },
+                    "room_id": {
+                      "type": "integer"
+                    },
+                    "package_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "mobile_number": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "roomPostForm": {
+        "type": "object",
+        "properties": {
+          "package_id": {
+            "type": "integer"
+          },
+          "number": {
+            "type": "string"
+          }
+        }
+      },
+      "roomUpdateForm": {
+        "type": "object",
+        "properties": {
+          "package_id": {
+            "type": "integer"
+          },
+          "number": {
+            "type": "string"
+          }
+        }
+      },
+      "room": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "package_id": {
+                "type": "integer"
+              },
+              "property_id": {
+                "type": "integer"
+              },
+              "number": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "device": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "external_reference": {
+                "type": "string"
+              },
+              "package_id": {
+                "type": "integer"
+              },
+              "property_id": {
+                "type": "integer"
+              },
+              "room_id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "mac_address": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "rooms": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "package_id": {
+                      "type": "integer"
+                    },
+                    "property_id": {
+                      "type": "integer"
+                    },
+                    "number": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "devices": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "external_reference": {
+                      "type": "string"
+                    },
+                    "package_id": {
+                      "type": "integer"
+                    },
+                    "property_id": {
+                      "type": "integer"
+                    },
+                    "room_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "mac_address": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "propertyCreateForm": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "property_type_id": {
+            "type": "integer"
+          },
+          "country_id": {
+            "type": "integer"
+          },
+          "group_id": {
+            "type": "integer"
+          },
+          "package_id": {
+            "type": "integer"
+          },
+          "portal_id": {
+            "type": "integer"
+          },
+          "external_reference": {
+            "type": "string"
+          },
+          "rate_per_unit": {
+            "type": "integer"
+          },
+          "send_sms": {
+            "type": "boolean"
+          },
+          "send_email": {
+            "type": "boolean"
+          },
+          "minimum_billable_percentage": {
+            "type": "integer"
+          },
+          "holiday_billable_percentage": {
+            "type": "integer"
+          },
+          "total_units": {
+            "type": "integer"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "authentication_details": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "max_accounts": {
+                  "type": "integer"
+                },
+                "connectivity_type_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "property_interface_details": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "gateway_type_id": {
+                  "type": "integer"
+                },
+                "mac_address": {
+                  "type": "string"
+                },
+                "ip_address": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "dns_name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "gateway_details": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "property_interface_type_id": {
+                  "type": "integer"
+                },
+                "package_id": {
+                  "type": "integer"
+                },
+                "api_key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "propertyUpdateForm": {
+        "type": "object",
+        "properties": {
+          "external_reference": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "property_type_id": {
+            "type": "integer"
+          },
+          "country_id": {
+            "type": "integer"
+          },
+          "group_id": {
+            "type": "integer"
+          },
+          "package_id": {
+            "type": "integer"
+          },
+          "portal_id": {
+            "type": "integer"
+          },
+          "address": {
+            "type": "string"
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "total_units": {
+            "type": "integer"
+          },
+          "rate_per_unit": {
+            "type": "integer"
+          },
+          "send_sms": {
+            "type": "boolean"
+          },
+          "send_email": {
+            "type": "boolean"
+          },
+          "minimum_billable_percentage": {
+            "type": "integer"
+          },
+          "holiday_billable_percentage": {
+            "type": "integer"
+          }
+        }
+      },
+      "property": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "country_id": {
+                "type": "integer"
+              },
+              "group_id": {
+                "type": "integer"
+              },
+              "property_type_id": {
+                "type": "integer"
+              },
+              "property_type_name": {
+                "type": "string"
+              },
+              "package_id": {
+                "type": "integer"
+              },
+              "package_type_name": {
+                "type": "string"
+              },
+              "connectivity_type_id": {
+                "type": "integer"
+              },
+              "connectivity_type_name": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string"
+              },
+              "total_units": {
+                "type": "integer"
+              },
+              "rate_per_unit": {
+                "type": "integer"
+              },
+              "max_accounts": {
+                "type": "integer"
+              },
+              "is_draft": {
+                "type": "boolean"
+              },
+              "send_sms": {
+                "type": "boolean"
+              },
+              "send_email": {
+                "type": "boolean"
+              },
+              "mri_enabled": {
+                "type": "boolean"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "allOf": [
+          {
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "country_id": {
+                      "type": "integer"
+                    },
+                    "group_id": {
+                      "type": "integer"
+                    },
+                    "property_type_id": {
+                      "type": "integer"
+                    },
+                    "property_type_name": {
+                      "type": "string"
+                    },
+                    "package_id": {
+                      "type": "integer"
+                    },
+                    "package_type_name": {
+                      "type": "string"
+                    },
+                    "connectivity_type_id": {
+                      "type": "integer"
+                    },
+                    "connectivity_type_name": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    },
+                    "postal_code": {
+                      "type": "string"
+                    },
+                    "total_units": {
+                      "type": "integer"
+                    },
+                    "rate_per_unit": {
+                      "type": "integer"
+                    },
+                    "max_accounts": {
+                      "type": "integer"
+                    },
+                    "is_draft": {
+                      "type": "boolean"
+                    },
+                    "send_sms": {
+                      "type": "boolean"
+                    },
+                    "send_email": {
+                      "type": "boolean"
+                    },
+                    "mri_enabled": {
+                      "type": "boolean"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -3,10 +3,9 @@ import pandas as pd
 
 _episodes=[{"Title": ":______", "Guest": ":___", "Main_topic": ":__________"},
           {"Title": ":______", "Guest": ":___", "Main_topic": ":__________"},
-          {"Title": ":______", "Guest": ":___", "Main_topic": ":__________"},
-          {"Title": ":______", "Guest": ":___", "Main_topic": ":__________"}]
+]
 
-class Templet():
+class Template():
     def __init__(self,episodes=_episodes):
         self.episodes= episodes
         self.index_name=[f"Number{i+1}" for i in range(len(self.episodes)) ]
@@ -21,7 +20,7 @@ class Templet():
             for col in range(len(titles)):
                 self.df.iloc[row][col]= input(f"Enter {titles[col]}: ")
             print(f"{self.df.iloc[row][1]}'s info updated")
-        print("Data updated")
+        print("Data updated\n")
         return self.df
     
     '''file_overrider'''
@@ -31,7 +30,7 @@ class Templet():
 
 def main():
     "Update file and make it an api"
-    templet=print(Templet().update_all)
+    templet=print(Template().update_all)
 
     
 if __name__ == "__main__":
