@@ -1,5 +1,5 @@
 from podcast_template import Template
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 data=Template().update_all
 
@@ -8,11 +8,13 @@ data=Template().update_all
 
 app= FastAPI()
 
-@app.get('/{id}')
+@app.get('/')
 def home():
     return data
 
 @app.get('/{id}')
 def welcome(id: int ):
-    return f'Welcome {data['Guest'].iloc[id]}'
-    
+    try:
+        return f'Welcome {data['Guest'].iloc[id]}'
+    except:
+        raise HTTPException(status_code=404, detail='Item not found')
