@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class add(BaseModel):
-    Title: int
+class Add(BaseModel):
+    Title: str
     Guest: str
     Topic: str
