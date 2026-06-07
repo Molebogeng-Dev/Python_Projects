@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(to right, #000000, #434343 , #316ea7);
+}
+
+.top-links {
+    text-align: left;
+    padding: 10px;
+    background-color: #fffefe;
+}
+
+.top-links a {
+    margin-left: 8px;
+    text-decoration: none;
+    color: #1a0dab;
+}
+.top-links a::after {
+    content: " |";
+    color: #1a0dab;
+}
+.top-links a:last-child::after {
+    content: "";
+}
+
+.top-links a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 150px;
+}
+
+.logo {
+    font-size: 60px;
+    color: #4285f4;
+}
+
+.search-bar {
+    width: 550px;
+    height: 44px;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    padding: 0 20px;
+    font-size: 16px;
+}
+
+.search-bar:hover {
+    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.buttons input,
+.buttons button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: 1px solid #f8f9fa;
+    border-radius: 24px;
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+.advanced-container {
+    margin: 40px;
+    max-width: 900px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.row label {
+    width: 250px;
+}
+
+label, h2 {
+    color: #ffffff;
+}
+
+.row input[type="text"] {
+    width: 500px;
+    padding: 8px;
+}
+
+.button-row {
+    justify-content: flex-end;
+}
+
+.advanced-btn {
+    background-color: #4d90fe;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+}
