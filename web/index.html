@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Search</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="inn">
-        <img src="M.jpeg" alt="Search picture">
+<head>
+    <title>Lebo's Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-links">
+        <a href="images.html">Image Search</a>
+        <a href="advanced.html">Advanced Search</a>
+    </div>
+
+    <div class="container">
+        <h1 class="logo">Malebza</h1>
+
         <form action="https://www.google.com/search">
-            <input type="text" name="q">
-            <input  type="submit" value="Google Search">
-        </div>
-            
+            <input class="search-bar" type="text" name="q" placeholder="Enter your text">
+
+            <div class="buttons">
+                <input type="submit" value="Google Search">
+
+                <button type="submit" name="btnI" value="1">
+                    Random Search
+                </button>
+            </div>
         </form>
-    </body>
+    </div>
+
+</body>
 </html>
